@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#080d18">
+<title>UIAMEOWTOPUP | Game Store</title>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<div id="uiameowHeaderCollapse" class="uiameow-header-collapse">
+  <div class="uiameow-header-inner">
+    <header>
+      <div class="brandbar">
+        <img class="brandlogo" src="/static/logo.jpg?v=20261020" alt="UIAMEOWTOPUP logo">
+        <div class="brand">UIAMEOWTOPUP</div>
+      </div>
+    </header>
+  </div>
+</div>
+
+<main>
+  <div id="status" role="status" aria-live="polite">Game စာရင်းကို ရယူနေပါတယ်...</div>
+
+  <section id="gamesSection" class="hidden">
+    <h2 class="premium-game-sticker">Game ရွေးချယ်ပါ</h2>
+    <div id="games" class="grid"></div>
+  </section>
+
+  <section id="packagesSection" class="hidden">
+    <button id="backToGames" type="button">← Game စာရင်းသို့ ပြန်သွားရန်</button>
+    <h2>Package ရွေးချယ်ပါ</h2>
+    <div id="packages" class="panel"></div>
+  </section>
+
+  <div id="playerOrderSection" class="player-order-card hidden">
+  <section id="fieldsSection" class="hidden">
+    <button class="back-button" type="button" onclick="document.getElementById('backToGames').click()">← Package များသို့ ပြန်သွားရန်</button>
+    <h2>Player အချက်အလက်</h2>
+    <div id="fields" class="panel"></div>
+  </section>
+
+  <section id="orderSection" class="hidden">
+    <h2>Order အတည်ပြုရန်</h2>
+    <div class="panel">
+      <button id="orderButton" type="button" onclick="submitMiniOrder()">Order တင်မည် →</button>
+      <div id="orderStatus" class="notice" role="status" aria-live="polite"></div>
+
+      <div id="paymentPanel" class="hidden">
+        <h2>Payment ပြုလုပ်ရန်</h2>
+        <div id="paymentInfo" class="premium-payment-info" aria-live="polite"></div>
+        <div id="orderInfo" class="premium-order-info"></div>
+
+        <div class="premium-receipt-heading">ငွေလွှဲ Receipt တင်ရန်</div>
+        <label class="premium-receipt-picker" for="receiptFile">
+          <span class="receipt-picker-icon">↑</span>
+          <span class="receipt-picker-copy">
+            <strong>Receipt ဖိုင်ရွေးချယ်ပါ</strong>
+            <span>JPG, PNG, WEBP သို့မဟုတ် PDF · 8MB အထိ</span>
+            <span id="receiptFileName"></span>
+          </span>
+          <input id="receiptFile" type="file" accept=".jpg,.jpeg,.png,.webp,.pdf" onclick="this.value=''" onchange="previewMiniReceipt()">
+        </label>
+
+        <div id="receiptPreview" class="receipt-preview-tap hidden" onclick="openReceiptFilePicker()">
+          <img id="receiptPreviewImage" alt="Receipt preview">
+          <div id="receiptPreviewFileLabel" class="receipt-preview-file-label"></div>
+        </div>
+
+        <button type="button" class="premium-receipt-submit" onclick="uploadMiniReceipt()">Receipt တင်မည်</button>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <section id="historySection" class="hidden">
+    <h2>Order History</h2>
+    <p style="color:var(--muted);font-size:12px;margin:0">သင့်ရဲ့ ယခင် Order များနဲ့ အခြေအနေကို ကြည့်ရှုနိုင်ပါတယ်။</p>
+    <div id="historyContent" class="hidden">
+      <div id="historyStatus" class="notice" role="status" aria-live="polite"></div>
+      <div id="historyFilterTabs">
+        <button type="button" class="active" aria-pressed="true" onclick="setHistoryFilter('all',this)">All</button>
+        <button type="button" aria-pressed="false" onclick="setHistoryFilter('ongoing',this)">Ongoing</button>
+        <button type="button" aria-pressed="false" onclick="setHistoryFilter('success',this)">Success</button>
+        <button type="button" aria-pressed="false" onclick="setHistoryFilter('failed',this)">Failed</button>
+      </div>
+      <div id="orderHistory"></div>
+      <button id="historyRefresh" class="history-refresh-btn" type="button" onclick="loadOrderHistory()">↻ Refresh</button>
+    </div>
+  </section>
+</main>
+
+<footer id="supportSection" class="hidden">
+  <div class="support-card">
+    <h2>Customer Support</h2>
+    <p style="color:var(--muted);margin-top:-5px">Order နဲ့ Payment အကူအညီလိုအပ်ရင် ဆက်သွယ်နိုင်ပါတယ်။</p>
+    <a class="support-row" href="tel:09788956720">
+      <span class="support-symbol">☎</span>
+      <span><strong>ဖုန်းဖြင့် ဆက်သွယ်ရန်</strong><small>09788956720</small></span>
+    </a>
+    <a class="support-row" href="https://t.me/uiameowisnotme" target="_blank" rel="noopener noreferrer">
+      <span class="support-symbol">✈</span>
+      <span><strong>Telegram Support</strong><small>@uiameowisnotme</small></span>
+    </a>
+  </div>
+</footer>
+
+<nav id="bottomNav" aria-label="Main navigation">
+  <button type="button" class="active" aria-current="page" onclick="navHome()"><span>⌂</span>Home</button>
+  <button type="button" onclick="navOrders()"><span>▤</span>Orders</button>
+  <button type="button" onclick="navSupport()"><span>◉</span>Support</button>
+</nav>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="/config.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
