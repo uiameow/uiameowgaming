@@ -1,5 +1,11 @@
 const API_BASE_URL = (window.API_BASE_URL || "").replace(/\/+$/, "");
 
+function apiFetch(path, options = {}) {
+  const headers = new Headers(options.headers || {});
+  headers.set("tunnl-skip-browser-warning", "true");
+  return fetch(`${API_BASE_URL}${path}`, { ...options, headers });
+}
+
 
 const statusBox = document.getElementById("status");
 const gamesBox = document.getElementById("games");
@@ -26,7 +32,7 @@ function money(value) {
 
 async function loadGames() {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/games`);
+    const response = await apiFetch("/api/games");
     if (!response.ok) throw new Error("Game API failed");
 
     const games = await response.json();
@@ -112,7 +118,7 @@ async function selectGame(game, button) {
   setLoading(packagesBox, "Package များ ရယူနေပါတယ်");
 
   try {
-    const response = await fetch(`${API_BASE_URL}/api/games/${game.id}/packages`);
+    const response = await apiFetch(`/api/games/${game.id}/packages`);
     if (!response.ok) throw new Error("Package API failed");
     const packages = await response.json();
 
@@ -176,7 +182,7 @@ async function loadFields(gameId) {
   fieldsBox.replaceChildren();
 
   try {
-    const response = await fetch(`${API_BASE_URL}/api/games/${gameId}/fields`);
+    const response = await apiFetch(`/api/games/${gameId}/fields`);
     if (!response.ok) throw new Error("Fields API failed");
     const fields = await response.json();
 
@@ -444,7 +450,7 @@ async function submitMiniOrder() {
   setLoading(status, "Order တင်နေပါတယ်");
 
   try {
-    const response = await fetch(`${API_BASE_URL}/api/order`, {
+    const response = await apiFetch("/api/order", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
@@ -634,7 +640,7 @@ async function uploadMiniReceipt() {
   setLoading(status, "Receipt ပို့နေပါတယ်");
 
   try {
-    const response = await fetch(`${API_BASE_URL}/api/receipt`, {
+    const response = await apiFetch("/api/receipt", {
       method: "POST",
       body: form
     });
@@ -693,7 +699,7 @@ async function loadOrderHistory() {
   refreshButton.disabled = true;
 
   try {
-    const response = await fetch(`${API_BASE_URL}/api/orders`, {
+    const response = await apiFetch("/api/orders", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({init_data: tg.initData})
