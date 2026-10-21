@@ -1,9 +1,7 @@
 const API_BASE_URL = (window.API_BASE_URL || "").replace(/\/+$/, "");
 
 function apiFetch(path, options = {}) {
-  const headers = new Headers(options.headers || {});
-  headers.set("tunnl-skip-browser-warning", "true");
-  return fetch(`${API_BASE_URL}${path}`, { ...options, headers });
+  return fetch(`${API_BASE_URL}${path}`, options);
 }
 
 
